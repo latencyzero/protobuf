@@ -50,6 +50,8 @@
 #error "You cannot SWIG proto headers"
 #endif
 
+#include <google/protobuf/port_def.inc>
+
 namespace google {
 namespace protobuf {
 namespace io {
@@ -73,7 +75,7 @@ namespace internal {
 // non-reflection based routines.
 //
 // This class is really a namespace that contains only static methods
-class LIBPROTOBUF_EXPORT WireFormat {
+class PROTOBUF_EXPORT WireFormat {
  public:
   // Given a field return its WireType
   static inline WireFormatLite::WireType WireTypeForField(
@@ -250,7 +252,7 @@ class LIBPROTOBUF_EXPORT WireFormat {
 };
 
 // Subclass of FieldSkipper which saves skipped fields to an UnknownFieldSet.
-class LIBPROTOBUF_EXPORT UnknownFieldSetFieldSkipper : public FieldSkipper {
+class PROTOBUF_EXPORT UnknownFieldSetFieldSkipper : public FieldSkipper {
  public:
   UnknownFieldSetFieldSkipper(UnknownFieldSet* unknown_fields)
       : unknown_fields_(unknown_fields) {}
@@ -281,7 +283,7 @@ inline WireFormatLite::WireType WireFormat::WireTypeForFieldType(
   // Some compilers don't like enum -> enum casts, so we implicit_cast to
   // int first.
   return WireFormatLite::WireTypeForFieldType(
-      static_cast<WireFormatLite::FieldType>(::google::protobuf::implicit_cast<int>(type)));
+      static_cast<WireFormatLite::FieldType>(implicit_cast<int>(type)));
 }
 
 inline uint32 WireFormat::MakeTag(const FieldDescriptor* field) {
@@ -294,7 +296,7 @@ inline size_t WireFormat::TagSize(int field_number,
   // int first.
   return WireFormatLite::TagSize(
       field_number,
-      static_cast<WireFormatLite::FieldType>(::google::protobuf::implicit_cast<int>(type)));
+      static_cast<WireFormatLite::FieldType>(implicit_cast<int>(type)));
 }
 
 inline void WireFormat::VerifyUTF8String(const char* data, int size,
@@ -331,12 +333,6 @@ inline void SerializeUnknownMessageSetItems(
   WireFormat::SerializeUnknownMessageSetItems(unknown_fields, output);
 }
 
-inline uint8* SerializeUnknownMessageSetItemsToArray(
-    const UnknownFieldSet& unknown_fields, uint8* target) {
-  return WireFormat::SerializeUnknownMessageSetItemsToArray(unknown_fields,
-                                                            target);
-}
-
 inline size_t ComputeUnknownMessageSetItemsSize(
     const UnknownFieldSet& unknown_fields) {
   return WireFormat::ComputeUnknownMessageSetItemsSize(unknown_fields);
@@ -345,5 +341,7 @@ inline size_t ComputeUnknownMessageSetItemsSize(
 }  // namespace internal
 }  // namespace protobuf
 }  // namespace google
+
+#include <google/protobuf/port_undef.inc>
 
 #endif  // GOOGLE_PROTOBUF_WIRE_FORMAT_H__

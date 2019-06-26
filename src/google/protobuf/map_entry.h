@@ -38,7 +38,7 @@
 #include <google/protobuf/port.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/unknown_field_set.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/wire_format_lite.h>
 
 #include <google/protobuf/port_def.inc>
 
@@ -62,8 +62,8 @@ namespace google {
 namespace protobuf {
 namespace internal {
 
-// MapEntry is the returned proto2::Message when calling AddMessage of
-// proto2::Reflection. In order to let it work with generated message
+// MapEntry is the returned google::protobuf::Message when calling AddMessage of
+// google::protobuf::Reflection. In order to let it work with generated message
 // reflection, its in-memory type is the same as generated message with the same
 // fields. However, in order to decide the in-memory type of key/value, we need
 // to know both their cpp type in generated api and proto type. In
@@ -121,12 +121,11 @@ class MapEntry
   InternalMetadataWithArena _internal_metadata_;
 
  private:
-  friend class ::GOOGLE_PROTOBUF_NAMESPACE_ID::Arena;
+  friend class ::PROTOBUF_NAMESPACE_ID::Arena;
   template <typename C, typename K, typename V,
             WireFormatLite::FieldType k_wire_type, WireFormatLite::FieldType,
             int default_enum>
   friend class internal::MapField;
-  friend class internal::GeneratedMessageReflection;
 
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MapEntry);
 };

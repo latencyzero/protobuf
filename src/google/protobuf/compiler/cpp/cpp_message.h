@@ -63,7 +63,7 @@ class MessageGenerator {
  public:
   // See generator.cc for the meaning of dllexport_decl.
   MessageGenerator(const Descriptor* descriptor,
-                   const std::map<string, string>& vars,
+                   const std::map<std::string, std::string>& vars,
                    int index_in_file_messages, const Options& options,
                    MessageSCCAnalyzer* scc_analyzer);
   ~MessageGenerator();
@@ -135,13 +135,6 @@ class MessageGenerator {
   // Generate the arena-specific destructor code.
   void GenerateArenaDestructorCode(io::Printer* printer);
 
-  // Helper for GenerateClear and others.  Optionally emits a condition that
-  // assumes the existence of the cached_has_bits variable, and returns true
-  // if the condition was printed.
-  bool MaybeGenerateOptionalFieldCondition(io::Printer* printer,
-                                           const FieldDescriptor* field,
-                                           int expected_has_bits_index);
-
   // Generate standard Message methods.
   void GenerateClear(io::Printer* printer);
   void GenerateOneofClear(io::Printer* printer);
@@ -194,7 +187,7 @@ class MessageGenerator {
 
   const Descriptor* descriptor_;
   int index_in_file_messages_;
-  string classname_;
+  std::string classname_;
   Options options_;
   FieldGeneratorMap field_generators_;
   // optimized_order_ is the order we layout the message's fields in the
@@ -216,7 +209,7 @@ class MessageGenerator {
 
   MessageSCCAnalyzer* scc_analyzer_;
 
-  std::map<string, string> variables_;
+  std::map<std::string, std::string> variables_;
 
   friend class FileGenerator;
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MessageGenerator);
